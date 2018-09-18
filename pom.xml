@@ -6,7 +6,7 @@
 	<artifactId>corprotex</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
-	
+
 	<dependencies>
 
 		<!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
@@ -15,47 +15,54 @@
 			<artifactId>opencsv</artifactId>
 			<version>4.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.5</version>
+		</dependency>
+
 	</dependencies>
 	<build>
-	<pluginManagement>
-		<!-- NOTE: These plugins will be removed from future versions of the super 
-			POM -->
-		<!-- They are kept for the moment as they are very unlikely to conflict 
-			with lifecycle mappings (MNG-4453) -->
-		<plugins>
-			<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-dependency-plugin</artifactId>
-    <executions>
-        <execution>
-            <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
-            <goals>
-                <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-                <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                <overWriteReleases>false</overWriteReleases>
-                <overWriteSnapshots>false</overWriteSnapshots>
-                <overWriteIfNewer>true</overWriteIfNewer>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-jar-plugin</artifactId>
-    <configuration>
-        <archive>
-            <manifest>
-                <addClasspath>true</addClasspath>
-                <classpathPrefix>lib/</classpathPrefix>
-                <mainClass>com.corprotex.csv.ui.CorprotexCSVParserPanel</mainClass>
-            </manifest>
-        </archive>
-    </configuration>
-</plugin>
-		</plugins>
-	</pluginManagement>
+		<pluginManagement>
+			<!-- NOTE: These plugins will be removed from future versions of the super 
+				POM -->
+			<!-- They are kept for the moment as they are very unlikely to conflict 
+				with lifecycle mappings (MNG-4453) -->
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>copy-dependencies</id>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>copy-dependencies</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.build.directory}/lib</outputDirectory>
+								<overWriteReleases>false</overWriteReleases>
+								<overWriteSnapshots>false</overWriteSnapshots>
+								<overWriteIfNewer>true</overWriteIfNewer>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<classpathPrefix>lib/</classpathPrefix>
+								<mainClass>com.corprotex.csv.ui.CorprotexCSVParserPanel</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
