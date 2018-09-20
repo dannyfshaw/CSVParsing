@@ -8,10 +8,11 @@ public class InboundCSVFormat {
 	private String name;
 	private String employeeNumber;
 	private String branchDetails;
-	private String size;
+	private String shellJacketSize;
 	private String fit;
 	private String inchSize;
-//	private String column8;
+	private String waterproofJacketSize;
+	private int quantity;
 //	private String column9;
 //	private String column10;
 //	private String column12;
@@ -22,8 +23,21 @@ public class InboundCSVFormat {
 //	private String column17;
 //	private String column18;
 //	private String column19;
+	
 	public String getName() {
 		return name;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public String getWaterproofJacketSize() {
+		return waterproofJacketSize;
+	}
+	public void setWaterproofJacketSize(String waterproofJacketSize) {
+		this.waterproofJacketSize = waterproofJacketSize;
 	}
 	public void setName(String name) {
 		this.name = name;
@@ -40,12 +54,7 @@ public class InboundCSVFormat {
 	public void setBranchDetails(String branchDetails) {
 		this.branchDetails = branchDetails;
 	}
-	public String getSize() {
-		return size;
-	}
-	public void setSize(String size) {
-		this.size = size;
-	}
+	
 	public String getFit() {
 		return fit;
 	}
@@ -58,10 +67,18 @@ public class InboundCSVFormat {
 	public void setInchSize(String inchSize) {
 		this.inchSize = inchSize;
 	}
+	public String getShellJacketSize() {
+		return shellJacketSize;
+	}
+	public void setShellJacketSize(String shellJacketSize) {
+		this.shellJacketSize = shellJacketSize;
+	}
 	@Override
 	public String toString() {
 		return "InboundCSVFormat [name=" + name + ", employeeNumber=" + employeeNumber + ", branchDetails="
-				+ branchDetails + ", size=" + size + ", fit=" + fit + ", inchSize=" + inchSize
-				+ "]";
+				+ branchDetails + ", shellJacketSize=" + shellJacketSize + ", fit=" + fit + ", inchSize=" + inchSize
+				+ ", waterproofJacketSize=" + waterproofJacketSize + ", quantity=" + quantity + "]";
 	}
+	
+	
 }

@@ -17,14 +17,14 @@ public class RunCVSUtil {
 	}
 	@SuppressWarnings("static-access")
 	private void callReadWriteFunctions() {
-		CSVUtil cSVUtil = new CSVUtil();
-		try {
-			List<CSVRecord> listOfRecords = cSVUtil.readCSV(pathToCSV);
-		//	cSVUtil.printRecords(listOfRecords, fileToWriteTo);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		CSVUtil cSVUtil = new CSVUtil();
+//		try {
+//			List<CSVRecord> listOfRecords = cSVUtil.readCSV(pathToCSV);
+//		//	cSVUtil.printRecords(listOfRecords, fileToWriteTo);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 }
