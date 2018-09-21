@@ -1,36 +1,26 @@
 package com.corprotex.csv.ui;
 
 import java.awt.HeadlessException;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.WritableRenderedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.filechooser.FileSystemView;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
-import org.w3c.dom.ls.LSInput;
 
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-
-import com.opencsv.bean.CsvToBean;
-
-import com.opencsv.CSVReader;
+import org.apache.commons.lang3.StringUtils;
 
 //import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
@@ -42,14 +32,13 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 	private JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	private JButton OKButton = new JButton();
 	private String selectedFilePath;
-	private String favIcon = "https://www.corprotex.com/favicon.ico";
 	 private CSVUtil cSVUtil = new CSVUtil();
 	private List<CSVRecord> linesread;
-	private String fileToWriteTo = "C:\\GIT\\CSVParsing\\src\\main\\resources\\\\Output DataNew5.csv";
-	private final String NEW_LINE_SEPARATOR = "\n";
+	private String fileToWriteTo = ".\\ParsedOutcome.csv";
+//	private final String NEW_LINE_SEPARATOR = "\n";
 
 	// CSV file header
-	private final Object[] FILE_HEADER = { "Branch Details", "Employee Number", "fit", "Inch Size", "name", "size" };
+//	private final Object[] FILE_HEADER = { "Branch Details", "Employee Number", "fit", "Inch Size", "name", "size" };
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equalsIgnoreCase("ApproveSelection")) {
@@ -61,7 +50,6 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 				List<InboundCSVFormat> listOfInboundCSVFormat = readCSV(selectedFilePath);
 				List<OutCSVFormat> listOfOutboundCSVFormat = mapInboundToOutboundFormat(listOfInboundCSVFormat);
 				cSVUtil.writeCsvFile(fileToWriteTo, listOfOutboundCSVFormat);
-				// cSVUtil.writeCsvFile(fileToWriteTo, listOfOutboundCSVFormat);
 				System.out.println("Finished writing to new file::"+fileToWriteTo);
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -78,6 +66,7 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 		run.init();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void init() {
 		chooser.setApproveButtonText("Select CSV to parse");
 		chooser.addActionListener(this);
@@ -142,10 +131,6 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 				String quantity = csvRecord.get(FieldPostionConstants.QUANTITY);
 				rowData.setQuantity(Integer.valueOf(quantity).intValue());
 
-		//		String inchSize = csvRecord.get(6);
-		//		;
-		//		rowData.setInchSize(inchSize);
-
 				System.out.println("Record No - " + csvRecord.getRecordNumber());
 				System.out.println("---------------");
 				 System.out.println("Name : " + name);
@@ -159,60 +144,11 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 
 				System.out.println("---------------\n\n");
 			}
+			csvParser.close();
 			return listOfInboundCSVFormat;
 		}
 
 	}
-
-//	public void writeCsvFile(String fileName, List<OutCSVFormat> listOfOutboundCSVFormat) {
-//
-//		FileWriter fileWriter = null;
-//
-//		CSVPrinter csvFilePrinter = null;
-//
-//		// Create the CSVFormat object with "\n" as a record delimiter
-//		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
-//
-//		try {
-//
-//			// initialize FileWriter object
-//			fileWriter = new FileWriter(fileName);
-//
-//			// initialize CSVPrinter object
-//			csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
-//
-//			// Create CSV file header
-//			csvFilePrinter.printRecord(FILE_HEADER);
-//
-//			csvFilePrinter.printRecords(listOfOutboundCSVFormat);
-//			// Write a new student object list to the CSV file
-//			// for (InboundCSVFormat item : listOfInboundCSVFormat) {
-//			// List<String> inboundCSVFormatDataRecord = new ArrayList<String>();
-//			// inboundCSVFormatDataRecord.add(String.valueOf(item.getBranchDetails()));
-//			// inboundCSVFormatDataRecord.add(item.getEmployeeNumber());
-//			// inboundCSVFormatDataRecord.add(item.getFit());
-//			// inboundCSVFormatDataRecord.add(item.getInchSize());
-//			// inboundCSVFormatDataRecord.add(String.valueOf(item.getName()));
-//			// inboundCSVFormatDataRecord.add(String.valueOf(item.getSize()));
-//			// csvFilePrinter.printRecord(inboundCSVFormatDataRecord);
-//			// }
-//
-//			System.out.println("CSV file was created successfully !!!");
-//
-//		} catch (Exception e) {
-//			System.out.println("Error in CsvFileWriter !!!");
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				fileWriter.flush();
-//				fileWriter.close();
-//				csvFilePrinter.close();
-//			} catch (IOException e) {
-//				System.out.println("Error while flushing/closing fileWriter/csvPrinter !!!");
-//				e.printStackTrace();
-//			}
-//		}
-//	}
 
 	private List<OutCSVFormat> mapInboundToOutboundFormat(List<InboundCSVFormat> listOfInboundCSVFormat) {
 		List<OutCSVFormat> response = new ArrayList<OutCSVFormat>();
@@ -221,17 +157,12 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 			outbound.setBranch(inbound.getBranchDetails());
 			outbound.setEmployeeNumber(inbound.getEmployeeNumber());
 			outbound.setSize(inbound.getInchSize());
-			outbound.setProduct("SomeProductName");
+			outbound.setProduct("J140M Soft Shell Jacket Size");
 			outbound.setFit(inbound.getFit());
 			outbound.setInchSize(inbound.getInchSize());
 			String name = inbound.getName();
-			outbound.setFullName(name);
-//			String[] splitName = inbound.getName().split(" ");
-//			if (splitName.length != 2) {
-//				outbound.setFullName(inbound.getName());
-//			} else {
-//				outbound.setFullName(splitName[0]);
-//			}
+			String stanitisednameString = StringUtils.remove(name, "?");
+			outbound.setFullName(stanitisednameString);
 			response.add(outbound);
 
 		}
