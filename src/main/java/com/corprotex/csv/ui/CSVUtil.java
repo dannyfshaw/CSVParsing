@@ -14,7 +14,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 public class CSVUtil {
-	private static final String SAMPLE_CSV_FILE = "./output_Danny.csv";
+//	private static final String SAMPLE_CSV_FILE = "./output_Danny.csv";
 	private static final String NEW_LINE_SEPARATOR = "\n";
 
 	// CSV file header

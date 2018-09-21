@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
 
 import org.apache.commons.csv.CSVFormat;
@@ -34,7 +35,7 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 	private String selectedFilePath;
 	 private CSVUtil cSVUtil = new CSVUtil();
 	private List<CSVRecord> linesread;
-	private String fileToWriteTo = ".\\ParsedOutcome.csv";
+//	private String fileToWriteTo = ".\\ParsedOutcome.csv";
 //	private final String NEW_LINE_SEPARATOR = "\n";
 
 	// CSV file header
@@ -49,8 +50,16 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 			try {
 				List<InboundCSVFormat> listOfInboundCSVFormat = readCSV(selectedFilePath);
 				List<OutCSVFormat> listOfOutboundCSVFormat = mapInboundToOutboundFormat(listOfInboundCSVFormat);
-				cSVUtil.writeCsvFile(fileToWriteTo, listOfOutboundCSVFormat);
-				System.out.println("Finished writing to new file::"+fileToWriteTo);
+				cSVUtil.writeCsvFile(CorprotexConstants.OUTPUT_File_Name, listOfOutboundCSVFormat);
+				JOptionPane pane = new JOptionPane();
+		//		pane.showConfirmDialog(this, "Finished parsing the CSV file::Output written to ::"+CorprotexConstants.OUTPUT_File_Name);
+		//		pane.showConfirmDialog(this, "Finished parsing the CSV file::Output written to ::"+CorprotexConstants.OUTPUT_File_Name);
+				
+				String formattedFileName = StringUtils.remove(CorprotexConstants.OUTPUT_File_Name, ".\\");
+				
+				int n = JOptionPane.showConfirmDialog(null,"Finished parsing the CSV file::Output written to :: "+formattedFileName,"Parsing Result",JOptionPane.PLAIN_MESSAGE);
+				
+				System.out.println("Finished writing to new file::"+CorprotexConstants.OUTPUT_File_Name);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
