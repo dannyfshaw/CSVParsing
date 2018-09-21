@@ -34,7 +34,7 @@ public class CSVUtil {
 
 			fileWriter = new FileWriter(fileName);
 
-			csvFilePrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT);
+			csvFilePrinter = new CSVPrinter(fileWriter, CSVFormat.EXCEL);
 
 			List<String[]> listOfRowValues = new ArrayList<String[]>();
 			for (OutCSVFormat item : listOfOutboundCSVFormat) {

@@ -1,6 +1,8 @@
 package com.corprotex.csv.ui;
 
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -31,12 +34,11 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1551650759596123144L;
 	private JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-	private JButton OKButton = new JButton();
+//	private JButton OKButton = new JButton();
 	private String selectedFilePath;
 	 private CSVUtil cSVUtil = new CSVUtil();
 	private List<CSVRecord> linesread;
-//	private String fileToWriteTo = ".\\ParsedOutcome.csv";
-//	private final String NEW_LINE_SEPARATOR = "\n";
+	private PropertiesReader propertiesReader = new PropertiesReader();
 
 	// CSV file header
 //	private final Object[] FILE_HEADER = { "Branch Details", "Employee Number", "fit", "Inch Size", "name", "size" };
@@ -50,18 +52,22 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 			try {
 				List<InboundCSVFormat> listOfInboundCSVFormat = readCSV(selectedFilePath);
 				List<OutCSVFormat> listOfOutboundCSVFormat = mapInboundToOutboundFormat(listOfInboundCSVFormat);
-				cSVUtil.writeCsvFile(CorprotexConstants.OUTPUT_File_Name, listOfOutboundCSVFormat);
+				String Stringoutputfile = propertiesReader.getFileToWriteTo();
+				cSVUtil.writeCsvFile(Stringoutputfile, listOfOutboundCSVFormat);
 				JOptionPane pane = new JOptionPane();
 		//		pane.showConfirmDialog(this, "Finished parsing the CSV file::Output written to ::"+CorprotexConstants.OUTPUT_File_Name);
 		//		pane.showConfirmDialog(this, "Finished parsing the CSV file::Output written to ::"+CorprotexConstants.OUTPUT_File_Name);
 				
-				String formattedFileName = StringUtils.remove(CorprotexConstants.OUTPUT_File_Name, ".\\");
+				String formattedFileName = StringUtils.remove(Stringoutputfile, ".\\");
 				
 				int n = JOptionPane.showConfirmDialog(null,"Finished parsing the CSV file::Output written to :: "+formattedFileName,"Parsing Result",JOptionPane.PLAIN_MESSAGE);
 				
-				System.out.println("Finished writing to new file::"+CorprotexConstants.OUTPUT_File_Name);
-			} catch (IOException e1) {
+				System.out.println("Finished writing to new file::"+Stringoutputfile);
+			} catch (Exception e1) {
 				e1.printStackTrace();
+				//String causeMessage = e1.getCause();
+				
+				JOptionPane.showConfirmDialog(null,"Problem writing file::See console for messsage details","Parsing Result",JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 		// What to do when Cancel is clicked
@@ -77,12 +83,16 @@ public class CorprotexCSVParserPanel extends JFrame implements ActionListener {
 
 	@SuppressWarnings("deprecation")
 	private void init() {
+		ImageIcon imageIcon = new ImageIcon("C:\\GIT\\CSVParsing\\src\\main\\resources\\corportex_logo.png");
+		this.setIconImage(imageIcon.getImage());
 		chooser.setApproveButtonText("Select CSV to parse");
 		chooser.addActionListener(this);
-		OKButton.setText("OK start");
-		OKButton.addActionListener(this);
-		OKButton.setActionCommand("OK_BUTTON");
-		this.chooser.setCurrentDirectory(new File("C:\\for Danny\\Corprotex"));
+	//	chooser.getC
+	//	OKButton.setText("OK start");
+	//	OKButton.addActionListener(this);
+	//	OKButton.setActionCommand("OK_BUTTON");
+	//	OKButton.setMnemonic('c');
+		this.chooser.setCurrentDirectory(new File(propertiesReader.getDirectoryToStartIn()));
 		this.add(chooser);
 		this.setTitle("CSV Parser");
 
