@@ -1,0 +1,1 @@
+java -jar corprotex-4.0-jar-with-dependencies.jar
